@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SONIC AUDIO | Order History</title>
+    <meta name="description" content="View and track your previous SONIC AUDIO orders." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="orders">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">SONIC AUDIO</a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="new-releases.html">New Releases</a>
+          <a href="headphones.html">Headphones</a>
+          <a href="speakers.html">Speakers</a>
+          <a href="about.html">About</a>
+        </nav>
+        <div class="topbar-right">
+          <button class="cart-btn" id="cartBtn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+            Cart <span id="cartCount">0</span>
+          </button>
+        </div>
+      </header>
+
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">YOUR ACCOUNT</p>
+          <h1>Order History</h1>
+          <p>Track, search, and view details of all your previous orders.</p>
+        </section>
+
+        <section class="orders-section">
+          <!-- Search and Filter Bar -->
+          <div class="orders-filter-bar">
+            <div class="search-input-wrapper">
+              <span class="search-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
+              <input type="text" id="orderSearchInput" placeholder="Search by Order ID, product name, or category..." />
+            </div>
+            <div class="orders-summary-text" id="ordersSummaryText">
+              Loading your orders...
+            </div>
+          </div>
+
+          <!-- Orders list dynamic target -->
+          <div class="orders-list-container" id="ordersListContainer">
+            <div class="spinner-container" id="ordersSpinner">
+              <div class="spinner"></div>
+            </div>
+            <div class="orders-list" id="ordersList" style="display: none;"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SONIC AUDIO. Premium sound for every lifestyle.</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
