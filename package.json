@@ -1,0 +1,14 @@
+{
+  "name": "sonic-audio",
+  "version": "1.0.0",
+  "description": "E-Commerce Audio Shop Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Ansh Gupta",
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}

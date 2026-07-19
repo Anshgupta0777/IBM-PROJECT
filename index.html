@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SONIC AUDIO | Premium Sound</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="home">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">SONIC AUDIO</a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="new-releases.html">New Releases</a>
+          <a href="headphones.html">Headphones</a>
+          <a href="speakers.html">Speakers</a>
+          <a href="about.html">About</a>
+        </nav>
+        <button class="cart-btn" id="cartBtn">Cart (0)</button>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-content">
+            <p class="eyebrow">PREMIUM SOUND</p>
+            <h1>Feel the beat. Own the moment.</h1>
+            <p class="hero-text">
+              Discover bold bass, crystal-clear audio, and premium design with the SONIC AUDIO collection.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="headphones.html">Shop Now</a>
+              <a class="btn btn-secondary" href="about.html">Discover More</a>
+            </div>
+            <div class="hero-stats">
+              <div>
+                <strong>33 Hr</strong>
+                <span>Battery Life</span>
+              </div>
+              <div>
+                <strong>4.8/5</strong>
+                <span>Rated Excellent</span>
+              </div>
+              <div>
+                <strong>100%</strong>
+                <span>Wireless Freedom</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <img
+              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80"
+              alt="SONIC AUDIO premium headphones"
+            />
+            <div class="hero-card">
+              <p class="card-tag">Featured release</p>
+              <h3>Nova Pro</h3>
+              <p>Smart, compact, and tuned for everyday adventure.</p>
+              <span>From ₹12,999</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-heading">
+          <p class="eyebrow">POPULAR PICKS</p>
+          <h2>Crafted for every beat and every moment.</h2>
+        </section>
+
+        <section class="products-grid" id="productGrid"></section>
+
+        <section class="feature-strip">
+          <div>
+            <h3>Engineered for the everyday</h3>
+            <p>From morning commutes to late-night playlists, SONIC AUDIO keeps your sound alive.</p>
+          </div>
+          <div>
+            <h3>Built to last</h3>
+            <p>Durable finishes, premium comfort, and quick charging in every series.</p>
+          </div>
+          <div>
+            <h3>Made for movement</h3>
+            <p>Portable, lightweight, and ready for work, travel, and weekends away.</p>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div>
+            <p class="eyebrow">WHY CHOOSE SONIC AUDIO</p>
+            <h2>Legendary sound. Contemporary design.</h2>
+            <p>
+              SONIC AUDIO blends performance, portability, and style to create audio gear that feels as bold as it sounds.
+            </p>
+            <a class="btn btn-primary" href="new-releases.html">Discover the Collection</a>
+          </div>
+          <div class="story-card">
+            <h3>Sound in every detail</h3>
+            <p>Enjoy rich tones, powerful bass, and crystal-clear vocals with every track.</p>
+            <h3>Made to travel</h3>
+            <p>Compact, rugged, and ready for work, travel, and weekends away.</p>
+          </div>
+        </section>
+        <section class="newsletter-section">
+          <div class="newsletter-content">
+            <p class="eyebrow" style="margin-bottom: 4px;">STAY IN SYNC</p>
+            <h2>Join the SONIC Club</h2>
+            <p>Subscribe to receive product release announcements, early member discounts, and custom sound updates.</p>
+          </div>
+          <form id="newsletterForm" class="newsletter-form" novalidate>
+            <div class="payment-input-group" style="flex: 1; min-width: 250px;">
+              <input type="email" id="newsletterEmail" class="payment-input" placeholder="Enter your email address" required />
+              <div class="input-error" id="error-newsletterEmail" style="text-align: left; margin-top: 4px;">Please enter a valid email address.</div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 12px 28px; border-radius: 10px; font-weight: 700; height: 46px;">Subscribe</button>
+          </form>
+        </section>
+
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SONIC AUDIO. Premium sound for every lifestyle.</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
