@@ -1,83 +1,133 @@
-# Sonic Audio - E-Commerce Store
+# Sonic Audio — E-Commerce Web Application
 
-This is a full-stack e-commerce web application for audio products (headphones, speakers, earbuds). It was developed as a submission project for the IBM Internship Program.
+Sonic Audio is a full-stack e-commerce web platform for personal audio equipment (headphones, wireless earbuds, smartwatches, and speakers). Built as a submission project for the **IBM Internship Program**, the project features a responsive frontend, an Express REST API backend, Google OAuth authentication, local JSON persistence with seamless offline fallback, and an admin management panel.
 
-## Features
+---
 
-- **Product Categories**: View different categories of products like Headphones, Speakers, and New Releases.
-- **Product Details & Specs**: Click on any product to view its technical specifications, color options, and description.
-- **Shopping Cart**: Add products to the cart and view the real-time subtotal in a slide-out panel.
-- **Payment Gateway Simulation**: Interactive checkout form with credit card, UPI, net banking, and COD options.
-- **Admin Dashboard**: A dashboard page (`admin.html`) to view order logs, newsletter subscribers, and customer feedback messages.
-- **Offline Support**: The app has local fallback data so the frontend can function even if the backend server is not running.
+## Technical Highlights
+
+- **Dynamic Storefront & Filtering**: Categorized views (`Headphones`, `Speakers`, `New Releases`) with real-time product search, modal specifications, and variant selection.
+- **Cart & Payment Flow**: Client-side persistent shopping cart with interactive checkout modal supporting UPI, Credit/Debit cards, Net Banking, and COD.
+- **Google OAuth & User Profiles**: Passport.js integration supporting Google single sign-on alongside local user session management.
+- **Admin Dashboard**: Operational dashboard (`/admin.html`) to monitor live sales orders, customer inquiries, and newsletter subscriptions.
+- **Resilient Fallback**: Designed with hybrid data access — if the Node server is offline, the frontend seamlessly degrades to client-side fallback product mock data.
+
+---
 
 ## Tech Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6)
-- **Backend**: Node.js, Express.js
-- **Database**: Local JSON files (`data/orders.json`, `data/contacts.json`, `data/subscribers.json`)
+| Layer | Technologies Used |
+|---|---|
+| **Frontend** | HTML5, Modern CSS3 (CSS Variables, Flexbox/Grid), Vanilla JavaScript (ES6+) |
+| **Backend** | Node.js, Express.js |
+| **Auth & Security** | Passport.js, `passport-google-oauth20`, Express Sessions |
+| **Data Storage** | Local JSON File Storage (`/data`) |
 
-## Folder Structure
+---
+
+## Repository Structure
 
 ```text
 IBM/
-├── data/
-│   ├── contacts.json         # Stored contact form submissions
-│   ├── orders.json           # Stored checkout orders
-│   └── subscribers.json      # Stored newsletter emails
-├── index.html                # Homepage
-├── new-releases.html         # New releases page
-├── headphones.html           # Headphones category page
-├── speakers.html             # Speakers category page
-├── about.html                # About us page & contact form
-├── admin.html                # Admin dashboard page
-├── script.js                 # Frontend JavaScript logic
-├── style.css                 # Custom CSS stylesheet
-├── server.js                 # Node.js backend server script
-├── package.json              # Project dependencies & startup scripts
-└── README.md                 # Project documentation
+├── data/                      # Local JSON persistence directory
+│   ├── contacts.json          # Form submission logs
+│   ├── orders.json            # Customer checkout orders
+│   ├── subscribers.json       # Newsletter subscriber emails
+│   └── users.json             # Registered user profiles
+├── images/                    # Local product assets & media
+├── index.html                 # Main store homepage
+├── new-releases.html          # New arrivals showcase
+├── headphones.html            # Category page: Headphones & Earbuds
+├── speakers.html              # Category page: Speakers & Soundbars
+├── about.html                 # Brand story & contact form
+├── admin.html                 # Admin portal for store management
+├── login.html                 # Customer login & auth interface
+├── orders.html                # User order history page
+├── profile.html               # User profile settings page
+├── script.js                  # Core frontend business logic & UI handler
+├── style.css                  # Custom styling & design system
+├── server.js                  # Express backend REST API & server logic
+└── package.json               # Manifest file & dependencies
 ```
 
-## How to Run Locally
+---
+
+## REST API Reference
+
+The Node backend exposes the following REST endpoints:
+
+### Public & Store Endpoints
+- `GET /api/products` — Retrieve all available audio products.
+- `GET /api/auth/status` — Check backend configuration status for Google OAuth.
+- `POST /api/orders` — Submit a new order.
+- `GET /api/orders?email=<email>` — Fetch order history for a specific customer email.
+- `POST /api/contact` — Log a contact form submission.
+- `POST /api/subscribe` — Register an email for newsletter updates.
+
+### Auth Endpoints
+- `GET /auth/google` — Trigger Google OAuth 2.0 login flow.
+- `GET /auth/google/callback` — Google OAuth redirect callback.
+- `GET /api/user` — Get active session user info.
+- `GET /logout` — Destroy current session.
+
+### Admin Endpoints
+- `GET /api/admin/data` — Retrieve aggregate system metrics (all orders, messages, and subscribers).
+
+---
+
+## Quick Start (Local Setup)
 
 ### Prerequisites
+- **Node.js** (v14.0 or higher recommended)
+- **npm** (included with Node.js)
 
-Make sure you have **Node.js** installed on your system.
+### Installation
 
-### Steps to Run
+1. **Navigate to the project root**:
+   ```bash
+   cd IBM
+   ```
 
-1. Open your terminal or command prompt inside the project folder (`IBM/`).
-2. Install the required Node packages:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
-3. Start the Express server:
+
+3. **Configure Environment Variables** (Optional, for Google OAuth):
+   Create a `.env` file or export environment variables:
+   ```env
+   PORT=3000
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   BASE_URL=http://localhost:3000
+   ```
+
+4. **Start the server**:
    ```bash
    npm start
    ```
-4. Open your browser and go to:
-   ```text
-   http://localhost:3000
-   ```
-5. You can open the admin dashboard by visiting:
-   ```text
-   http://localhost:3000/admin.html
-   ```
 
-## Deploying to Render.com
+5. **Access the application**:
+   - Storefront: [http://localhost:3000](http://localhost:3000)
+   - Admin Portal: [http://localhost:3000/admin.html](http://localhost:3000/admin.html)
 
-This application can be deployed for free on Render:
+---
 
-1. Push the project code (excluding `node_modules`) to a GitHub repository.
-2. Log in to [Render](https://render.com/) and create a new **Web Service**.
-3. Connect your GitHub repository.
-4. Set the following options:
+## Deployment (Render)
+
+This application is ready for deployment on [Render](https://render.com/):
+
+1. Push your repository to GitHub.
+2. Create a new **Web Service** on Render and link your repository.
+3. Configure the service settings:
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
-5. Click **Deploy Web Service**.
+4. Add environment variables (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `BASE_URL`) in the Render dashboard if Google OAuth login is used.
 
-## Project Info
+---
+
+## Project Metadata
 
 - **Developer**: Ansh Gupta
-- **Internship**: IBM Internship Program Submission
+- **Submission**: IBM Internship Program
 - **Version**: 1.0.0

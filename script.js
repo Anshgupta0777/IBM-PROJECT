@@ -1,12 +1,6 @@
-/**
- * SONIC AUDIO — Main Application Logic
- */
-
-// Helper utility for DOM selection
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
-// Application State
 let rawCart = JSON.parse(localStorage.getItem('sonic_cart_items')) || [];
 let cartItems = rawCart.map(item => ({
   ...item,
@@ -17,7 +11,6 @@ let products = [];
 let pageMap = {};
 let allOrders = [];
 
-// Helper functions for Cart calculations & Persistence
 const getCartCount = () => cartItems.reduce((sum, item) => sum + item.quantity, 0);
 const getCartTotal = () => cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -47,21 +40,100 @@ const addItemToCart = (product, qtyToAdd = 1) => {
   showToastNotification(`Added ${qtyToAdd}x ${product.name} to cart!`);
 };
 
-// Fallback Product Catalog
 const fallbackProducts = [
-  { name: 'Nova Pro', category: 'Over-Ear', price: 12999, description: 'Immersive sound with smart controls and rich bass.', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Nova Buds', category: 'True Wireless', price: 8999, description: 'Compact earbuds with strong battery and precise audio.', image: 'https://images.unsplash.com/photo-1491927570842-0261e477d937?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Pulse Box', category: 'Portable Speaker', price: 19999, description: 'Powerful portable sound for parties and travel.', image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Quantum 910', category: 'Over-Ear', price: 16999, description: 'Deep bass and cinematic sound for music and gaming.', image: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Studio Mini', category: 'Home Speaker', price: 14999, description: 'Balanced sound for lounge, office, and daily listening.', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Air Wave', category: 'Neckband', price: 6999, description: 'Lightweight neckband with long playtime and clarity.', image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Echo Lite', category: 'Portable Speaker', price: 7999, description: 'Pocket-friendly speaker with rich tone and easy carry.', image: 'https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Bass Drift', category: 'Gaming Headset', price: 10999, description: 'Precision audio for immersive gameplay and voice clarity.', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Sonic X1', category: 'On-Ear', price: 4999, description: 'Slim and stylish for calls, travel, and everyday use.', image: 'https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Riff Max', category: 'Over-Ear', price: 13999, description: 'Comfortable and powerful for long sessions and streaming.', image: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Sound Nest', category: 'Home Speaker', price: 17999, description: 'Elegant speaker for lounge, desk, and home entertainment.', image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=700&q=80' },
-  { name: 'Boom Arc', category: 'Portable Speaker', price: 15999, description: 'Powerful output with deep bass and outdoor-ready build.', image: 'https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=700&q=80' }
+  { id: 1, name: 'Airdopes 141 ANC', category: 'True Wireless', price: 1299, originalPrice: 4490, discount: '71% OFF', tag: 'NEW LAUNCH', description: '42 Hours playback, Dual Mic ENx Tech, Beast Mode low latency.', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=700&q=80' },
+  { id: 2, name: 'Wave Call 2 Smartwatch', category: 'Smart Watch', price: 1499, originalPrice: 6990, discount: '78% OFF', tag: 'JUST ARRIVED', description: '1.83" HD Display, Bluetooth Calling, 700+ Active Modes.', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80' },
+  { id: 3, name: 'Rockerz 450 Pro', category: 'Over-Ear', price: 1999, originalPrice: 5990, discount: '66% OFF', tag: 'EXCLUSIVE', description: '70 Hours non-stop playtime, 40mm Drivers, Adaptive fit.', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80' },
+  { id: 4, name: 'Pulse Box 30W RGB', category: 'Portable Speaker', price: 2999, originalPrice: 7990, discount: '62% OFF', tag: 'FRESH ARRIVAL', description: 'Dynamic RGB LEDs, IPX7 Waterproof, TWS Pairing mode.', image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=700&q=80' },
+  { id: 5, name: 'Rockerz 255 Pro+', category: 'Neckband', price: 1199, originalPrice: 3990, discount: '70% OFF', tag: '60H PLAYTIME', description: 'ASAP Fast Charge, Magnetic Earbuds, Dual Pairing.', image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=700&q=80' },
+  { id: 6, name: 'Storm Call Pro GPS', category: 'Smart Watch', price: 2199, originalPrice: 8990, discount: '75% OFF', tag: 'NEW EDITION', description: 'Built-in GPS, Heart Rate & SpO2 Monitor, Metal Body.', image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=700&q=80' },
+  { id: 7, name: 'Nova Buds ANC Pro', category: 'True Wireless', price: 2499, originalPrice: 7990, discount: '68% OFF', tag: 'NEW LAUNCH', description: 'Active Noise Cancellation, Spatial Audio, 50H Battery.', image: 'https://images.unsplash.com/photo-1491927570842-0261e477d937?auto=format&fit=crop&w=700&q=80' },
+  { id: 8, name: 'Quantum 910 Studio', category: 'Over-Ear', price: 16999, originalPrice: 29999, discount: '43% OFF', tag: 'FLAGSHIP', description: 'Hi-Res Certified Sound, Active Noise Cancelling, Plush Foam.', image: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=700&q=80' },
+  { id: 9, name: 'Airdopes Supreme', category: 'True Wireless', price: 1699, originalPrice: 5990, discount: '71% OFF', tag: 'JUST ARRIVED', description: 'Ultra-low 65ms gaming mode, In-ear detection, Fast Charge.', image: 'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?auto=format&fit=crop&w=700&q=80' },
+  { id: 10, name: 'Soundbar 1800W Surround', category: 'Home Audio', price: 8999, originalPrice: 19990, discount: '55% OFF', tag: 'NEW RELEASE', description: 'Dolby Audio, Wireless Subwoofer, HDMI ARC & Optical.', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=80' },
+  { id: 11, name: 'Bass Drift 7.1 Gaming', category: 'Gaming Headset', price: 3499, originalPrice: 8990, discount: '61% OFF', tag: 'GAMING SERIES', description: 'Detachable Boom Mic, RGB Breathing Lights, Memory Foam.', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=700&q=80' },
+  { id: 12, name: 'Lunar Connect AMOLED', category: 'Smart Watch', price: 3299, originalPrice: 10990, discount: '70% OFF', tag: 'NEW LAUNCH', description: 'Always-On 1.43" Display, Stainless Steel Bezel, BT Call.', image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=700&q=80' },
+  { id: 13, name: 'Air Wave Flex Neckband', category: 'Neckband', price: 899, originalPrice: 2990, discount: '70% OFF', tag: 'NEW RELEASE', description: 'Lightweight ergonomic neckband, 30H battery, Fast USB-C.', image: 'https://images.unsplash.com/photo-1545127398-14699f92334b?auto=format&fit=crop&w=700&q=80' },
+  { id: 14, name: 'Echo Lite Outdoor', category: 'Portable Speaker', price: 1799, originalPrice: 4990, discount: '64% OFF', tag: 'JUST ARRIVED', description: 'Pocket-friendly rugged speaker, 12H playback, Carabiner clip.', image: 'https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=700&q=80' },
+  { id: 15, name: 'Studio Mini Soundstation', category: 'Home Speaker', price: 4999, originalPrice: 11990, discount: '58% OFF', tag: 'NEW ARRIVAL', description: 'Wooden enclosure, Bluetooth 5.3, AUX, USB playback.', image: 'https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&w=700&q=80' },
+  { id: 16, name: 'Sonic X1 Wireless', category: 'On-Ear', price: 1899, originalPrice: 4990, discount: '62% OFF', tag: 'NEW LAUNCH', description: 'Foldable design, Soft cushion earcups, 25H battery.', image: 'https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=700&q=80' },
+  { id: 17, name: 'Boom Arc Party 60W', category: 'Portable Speaker', price: 6499, originalPrice: 14990, discount: '56% OFF', tag: 'PARTY BASS', description: 'BassBoost technology, Karaoke Mic support, Shoulder strap.', image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=700&q=80' },
+  { id: 18, name: 'PowerVault 20000mAh', category: 'Mobile Accessories', price: 1699, originalPrice: 3990, discount: '57% OFF', tag: 'NEW LAUNCH', description: 'Triple output ports, Power Delivery 3.0, LED indicators.', image: 'https://images.unsplash.com/photo-1609592424074-95cbbf693630?auto=format&fit=crop&w=700&q=80' }
 ];
+
+// Product Catalog Helpers & Modular Rendering
+function filterProductsByQuery(query) {
+  const q = (query || '').toLowerCase().trim();
+  if (!q) return products;
+  return products.filter(p => 
+    p.name.toLowerCase().includes(q) || 
+    p.category.toLowerCase().includes(q) ||
+    (p.description && p.description.toLowerCase().includes(q))
+  );
+}
+
+function createProductCardHTML(item) {
+  const cartItem = cartItems.find(c => c.name === item.name);
+  const qtyInCart = cartItem ? cartItem.quantity : 0;
+  const origPrice = item.originalPrice || Math.round(item.price * 2.8);
+  const disc = item.discount || '60% OFF';
+  return `
+    <article class="product-card" data-product-name="${item.name}">
+      ${item.tag ? `<div class="product-card-badge">${item.tag}</div>` : ''}
+      <img src="${item.image}" alt="${item.name}" class="product-trigger" style="cursor: pointer;" />
+      <div class="product-body">
+        <p class="product-tag">${item.category}</p>
+        <h3 class="product-trigger" style="cursor: pointer;">${item.name}</h3>
+        <p class="product-desc">${item.description}</p>
+        <div class="product-meta">
+          <div class="price-container">
+            <span class="price-val">₹${item.price.toLocaleString('en-IN')}</span>
+            <span class="price-mrp">₹${origPrice.toLocaleString('en-IN')}</span>
+            <span class="price-disc">${disc}</span>
+          </div>
+          <button class="buy-btn">
+            ${qtyInCart > 0 ? `In Cart (${qtyInCart}) +` : 'Add to Cart'}
+          </button>
+        </div>
+      </div>
+    </article>`;
+}
+
+function bindProductCardEvents(container) {
+  $$('.product-trigger', container).forEach(el => {
+    el.addEventListener('click', () => {
+      const card = el.closest('.product-card');
+      const product = products.find(p => p.name === card?.dataset.productName);
+      if (product) openProductDetailModal(product);
+    });
+  });
+
+  $$('.buy-btn', container).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.product-card');
+      const product = products.find(p => p.name === card?.dataset.productName);
+      if (!product) return;
+      addItemToCart(product, 1);
+      renderProducts(document.body?.dataset?.page || 'home');
+      renderSlidingWindow();
+    });
+  });
+}
+
+function renderProductList(items, container, query = '') {
+  if (!container) return;
+  if (!items || items.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; color: var(--muted);">
+        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No products found matching "${query}"</h3>
+        <p>Try searching for "Smartwatches", "Earbuds", "Headphones", or "Speakers"</p>
+      </div>`;
+    return;
+  }
+  container.innerHTML = items.map(createProductCardHTML).join('');
+  bindProductCardEvents(container);
+}
 
 // Load Products Catalog
 async function loadProductsCatalog() {
@@ -73,63 +145,109 @@ async function loadProductsCatalog() {
   }
 
   pageMap = {
-    home: products.slice(0, 9),
+    home: products,
     new: products.slice(0, 18),
     headphones: products.filter(p => ['Over-Ear', 'True Wireless', 'On-Ear', 'Neckband', 'In-Ear', 'Gaming Headset'].includes(p.category)),
-    speakers: products.filter(p => ['Portable Speaker', 'Home Speaker', 'Soundbar'].includes(p.category)),
+    speakers: products.filter(p => ['Portable Speaker', 'Home Speaker', 'Soundbar', 'Home Audio'].includes(p.category)),
     about: products.slice(0, 6)
   };
 
   const currentPage = document.body?.dataset?.page || 'home';
   renderProducts(currentPage);
+  renderSlidingWindow();
+
+  // Check URL parameters for search query
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get('search') || urlParams.get('q');
+  if (searchQuery) {
+    const searchInput = $('#headerSearchInput');
+    if (searchInput) searchInput.value = searchQuery;
+    const productGrid = $('#productGrid');
+    if (productGrid) {
+      renderProductList(filterProductsByQuery(searchQuery), productGrid, searchQuery);
+      setTimeout(() => {
+        productGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }
 }
 
-// Render Products Grid
-function renderProducts(page) {
-  const productGrid = $('#productGrid');
-  if (!productGrid) return;
+// Render 10-12 Product Sliding Window Carousel
+function renderSlidingWindow() {
+  const sliderTrack = $('#sliderTrack');
+  if (!sliderTrack) return;
 
-  const selectedProducts = pageMap[page] || products.slice(0, 9);
-  productGrid.innerHTML = selectedProducts.map(item => {
+  const slidingProducts = products.slice(0, 12);
+
+  sliderTrack.innerHTML = slidingProducts.map(item => {
     const cartItem = cartItems.find(c => c.name === item.name);
     const qtyInCart = cartItem ? cartItem.quantity : 0;
+    const origPrice = item.originalPrice || Math.round(item.price * 2.8);
+    const disc = item.discount || '65% OFF';
+
     return `
-      <article class="product-card" data-product-name="${item.name}">
-        <img src="${item.image}" alt="${item.name}" class="product-trigger" style="cursor: pointer;" />
-        <div class="product-body">
-          <p class="product-tag">${item.category}</p>
-          <h3 class="product-trigger" style="cursor: pointer;">${item.name}</h3>
-          <p>${item.description}</p>
-          <div class="product-meta">
-            <span>₹${item.price.toLocaleString('en-IN')}</span>
-            <button class="buy-btn">
-              ${qtyInCart > 0 ? `In Cart (${qtyInCart}) +` : 'Add to Cart'}
-            </button>
-          </div>
+      <div class="slider-card" data-product-name="${item.name}">
+        ${item.tag ? `<div class="slider-badge">${item.tag}</div>` : ''}
+        <div class="slider-img-wrap product-trigger">
+          <img src="${item.image}" alt="${item.name}" loading="lazy" />
         </div>
-      </article>`;
+        <div class="slider-card-body">
+          <p class="slider-category">${item.category}</p>
+          <h4 class="slider-title product-trigger">${item.name}</h4>
+          <div class="slider-pricing">
+            <span class="price">₹${item.price.toLocaleString('en-IN')}</span>
+            <span class="mrp">₹${origPrice.toLocaleString('en-IN')}</span>
+            <span class="disc">${disc}</span>
+          </div>
+          <button class="slider-add-btn buy-btn">
+            ${qtyInCart > 0 ? `In Cart (${qtyInCart})` : 'Add to Cart'}
+          </button>
+        </div>
+      </div>`;
   }).join('');
 
-  $$('.product-trigger').forEach(el => {
+  // Attach slider navigation button handlers
+  const prevBtn = $('#sliderPrevBtn');
+  const nextBtn = $('#sliderNextBtn');
+
+  if (prevBtn && nextBtn) {
+    prevBtn.onclick = () => {
+      sliderTrack.scrollBy({ left: -320, behavior: 'smooth' });
+    };
+    nextBtn.onclick = () => {
+      sliderTrack.scrollBy({ left: 320, behavior: 'smooth' });
+    };
+  }
+
+  // Re-bind triggers for detail modal and add-to-cart
+  $$('#sliderTrack .product-trigger').forEach(el => {
     el.addEventListener('click', () => {
-      const card = el.closest('.product-card');
+      const card = el.closest('.slider-card');
       const pName = card?.dataset.productName;
       const product = products.find(p => p.name === pName);
       if (product) openProductDetailModal(product);
     });
   });
 
-  $$('.buy-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const card = btn.closest('.product-card');
+  $$('#sliderTrack .buy-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.slider-card');
       const pName = card?.dataset.productName;
       const product = products.find(p => p.name === pName);
       if (!product) return;
-
       addItemToCart(product, 1);
       renderProducts(document.body?.dataset?.page || 'home');
+      renderSlidingWindow();
     });
   });
+}
+
+// Render Products Grid
+function renderProducts(page) {
+  const productGrid = $('#productGrid');
+  const selectedProducts = pageMap[page] || products.slice(0, 12);
+  renderProductList(selectedProducts, productGrid);
 }
 
 // Product Details Modal
@@ -952,6 +1070,154 @@ function initNewsletterForm() {
   });
 }
 
+// Header Search Handler & Live Suggestions
+function initHeaderSearch() {
+  const searchInput = $('#headerSearchInput');
+  if (!searchInput) return;
+
+  const searchWrap = searchInput.closest('.search-box-wrap');
+  if (!searchWrap) return;
+
+  // Create live dropdown container if not present
+  let resultsContainer = searchWrap.querySelector('.header-search-results');
+  if (!resultsContainer) {
+    resultsContainer = document.createElement('div');
+    resultsContainer.className = 'header-search-results';
+    resultsContainer.id = 'headerSearchResults';
+    searchWrap.appendChild(resultsContainer);
+  }
+
+  const renderLiveDropdown = (query) => {
+    if (!query) {
+      resultsContainer.classList.remove('active');
+      resultsContainer.innerHTML = '';
+      return;
+    }
+
+    const filtered = filterProductsByQuery(query);
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="search-no-results">
+          <p style="margin: 0; font-weight: 600; color: #334155;">No products found for "${query}"</p>
+          <p style="margin: 6px 0 0 0; font-size: 0.8rem; color: #94a3b8;">Try "Smartwatches", "Earbuds", "Headphones", or "Speakers"</p>
+        </div>`;
+    } else {
+      const topMatches = filtered.slice(0, 5);
+      const itemsHtml = topMatches.map(item => `
+        <div class="search-result-item" data-product-name="${item.name.replace(/"/g, '&quot;')}">
+          <img src="${item.image}" alt="${item.name}" class="search-result-img" />
+          <div class="search-result-info">
+            <div class="search-result-title">${item.name}</div>
+            <div class="search-result-category">${item.category}</div>
+          </div>
+          <div class="search-result-price">₹${item.price.toLocaleString('en-IN')}</div>
+        </div>
+      `).join('');
+
+      const footerHtml = `
+        <div class="search-result-footer" id="searchSeeAllBtn">
+          View all ${filtered.length} result${filtered.length > 1 ? 's' : ''} →
+        </div>`;
+
+      resultsContainer.innerHTML = itemsHtml + footerHtml;
+
+      // Attach click events on dropdown items
+      $$('.search-result-item', resultsContainer).forEach(itemEl => {
+        itemEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const pName = itemEl.dataset.productName;
+          const product = products.find(p => p.name === pName);
+          resultsContainer.classList.remove('active');
+          if (product) {
+            openProductDetailModal(product);
+          }
+        });
+      });
+
+      // Click on footer "View all results"
+      const seeAllBtn = $('#searchSeeAllBtn', resultsContainer);
+      if (seeAllBtn) {
+        seeAllBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          resultsContainer.classList.remove('active');
+          executeSearchAction(query, true);
+        });
+      }
+    }
+
+    resultsContainer.classList.add('active');
+  };
+
+  const executeSearchAction = (query, shouldScroll = false) => {
+    const productGrid = $('#productGrid');
+    if (productGrid) {
+      if (!query) {
+        renderProducts(document.body?.dataset?.page || 'home');
+        return;
+      }
+
+      renderProductList(filterProductsByQuery(query), productGrid, query);
+
+      if (shouldScroll) {
+        productGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      window.location.href = `index.html?search=${encodeURIComponent(query)}`;
+    }
+  };
+
+  // Event Listeners
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    renderLiveDropdown(query);
+    executeSearchAction(query, false);
+  });
+
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const query = searchInput.value.trim().toLowerCase();
+      resultsContainer.classList.remove('active');
+      executeSearchAction(query, true);
+    } else if (e.key === 'Escape') {
+      resultsContainer.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('focus', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (query) {
+      renderLiveDropdown(query);
+    }
+  });
+
+  // Hide dropdown on click outside
+  document.addEventListener('click', (e) => {
+    if (!searchWrap.contains(e.target)) {
+      resultsContainer.classList.remove('active');
+    }
+  });
+}
+
+// Back to Top Button
+function initBackToTop() {
+  const backBtn = $('#backToTopBtn');
+  if (!backBtn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backBtn.classList.add('visible');
+    } else {
+      backBtn.classList.remove('visible');
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 // Global Event Listeners & Bootstrapping
 document.addEventListener('DOMContentLoaded', () => {
   updateCartButton();
@@ -964,5 +1230,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProfilePage();
   initContactForm();
   initNewsletterForm();
+  initHeaderSearch();
+  initBackToTop();
 });
 
